@@ -1,16 +1,24 @@
 from xml.etree import ElementTree
 from xml.etree.ElementTree import Element
+import json
+from typing import Iterable
 
 
 def xml_converter_to_lofl(_xml: Element | str):
-    """  Преобразование XML в список списков """
-    _el = _xml if isinstance(_xml, Element) else ElementTree.fromstring(_xml)
-    # Первый элемент списка - наименование тэга
+    """ Преобразует XML в список списков """
+    if isinstance(_xml, str):
+        _el = ElementTree.fromstring(_xml)
+    elif isinstance(_xml, Element):
+        _el = _xml
+    else:
+        raise TypeError("XML must be provided either as a string or as type xml.etree.ElementTree.Element")
+
+    # Первый элемент списка - наименование тэга.
     xml_element_list = [_el.tag]
     # Второй элемент списка - отсортированный список кортежей аттрибутов.
     attrs = sorted(_el.items())
 
-    # Третий список - отсортированный список преобразованных в список-списков XML-под элементов.
+    # Третий список - отсортированный список преобразованных в список-списков XML под-элементов.
     sub_el = sorted([xml_converter_to_lofl(el) for el in _el.iterfind('./')])
     # Если в XML присутствует текст, то он добавляется в третий список в начальную позицию.
     if (text := _el.text) is not None:
@@ -18,3 +26,21 @@ def xml_converter_to_lofl(_xml: Element | str):
             sub_el = [text] + sub_el
     xml_element_list += [attrs, sub_el]
     return xml_element_list
+
+
+def json_converter_to_lofo(_json: str | dict | list | tuple):
+    """ Преобразует JSON в список списков """
+    def convert(val):
+        return sorted([(item[0], convert(item[1])) for item in val.items()]) if isinstance(val, dict) \
+            else val if isinstance(val, str) else sorted([convert(item) for item in val]) if isinstance(val, Iterable) \
+            else val
+
+    if isinstance(_json, str):
+        _obj = json.loads(_json)
+    elif isinstance(_json, dict) or isinstance(_json, list) or isinstance(_json, tuple):
+        _obj = _json
+    else:
+        raise TypeError("JSON must be provided either as a string or as type Dict, list or tuple")
+
+    return convert(_obj)
+
