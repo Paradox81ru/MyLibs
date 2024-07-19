@@ -1,0 +1,20 @@
+from xml.etree import ElementTree
+from xml.etree.ElementTree import Element
+
+
+def xml_converter_to_lofl(_xml: Element | str):
+    """  Преобразование XML в список списков """
+    _el = _xml if isinstance(_xml, Element) else ElementTree.fromstring(_xml)
+    # Первый элемент списка - наименование тэга
+    xml_element_list = [_el.tag]
+    # Второй элемент списка - отсортированный список кортежей аттрибутов.
+    attrs = sorted(_el.items())
+
+    # Третий список - отсортированный список преобразованных в список-списков XML-под элементов.
+    sub_el = sorted([xml_converter_to_lofl(el) for el in _el.iterfind('./')])
+    # Если в XML присутствует текст, то он добавляется в третий список в начальную позицию.
+    if (text := _el.text) is not None:
+        if len(text := text.strip()) > 0:
+            sub_el = [text] + sub_el
+    xml_element_list += [attrs, sub_el]
+    return xml_element_list
