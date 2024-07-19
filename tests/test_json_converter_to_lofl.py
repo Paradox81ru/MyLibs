@@ -1,6 +1,6 @@
 import pytest
 
-from two.my_converts import json_converter_to_lofo
+from two.my_converts import json_converter_to_lofl
 
 JSON_1 = """
 {"data": {
@@ -242,9 +242,9 @@ JSON_DAMAGED_4 = """
     [JSON_1, JSON_DAMAGED_4, False],
 ], ids='1 2 3 4 5'.split())
 def test_json_converter_to_lofo(json_str1, json_str2, result):
-    result1 = json_converter_to_lofo(json_str1)
+    result1 = json_converter_to_lofl(json_str1)
     hash1 = hash(repr(result1))
-    result2 = json_converter_to_lofo(json_str2)
+    result2 = json_converter_to_lofl(json_str2)
     hash2 = hash(repr(result2))
     print("")
     print(f"result_1: {hash1}, {result1}")
