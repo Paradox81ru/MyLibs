@@ -28,7 +28,7 @@ def xml_converter_to_lofl(_xml: Element | str):
     return xml_element_list
 
 
-def json_converter_to_lofo(_json: str | dict | list | tuple):
+def json_converter_to_lofl(_json: str | dict | list | tuple):
     """ Преобразует JSON в список списков """
     def convert(val):
         return sorted([(item[0], convert(item[1])) for item in val.items()]) if isinstance(val, dict) \
