@@ -18,6 +18,13 @@ class CacheReaderClass:
             self._cache[key] = func(*args, **kwargs)
         return self._cache[key]
 
+    def cache_reset(self, key: str = None):
+        """ Сброс кэша """
+        if key is None:
+            self._cache = {}
+        else:
+            del self._cache[key]
+
 
 class MyClass(CacheReaderClass):
     def _a_value(self):
@@ -47,24 +54,40 @@ class MyClass(CacheReaderClass):
         print('Calc y_value')
         return 50 + a
 
-
 def main():
     my_class = MyClass()
     a = my_class.a_value
     print(str(a))
-    b = my_class.a_value
-    print(str(b))
-    c = my_class.a_value
-    print(str(c))
-    print("")
-
     a1 = my_class.b_value
     print(str(a1))
+    print("")
+
+    b = my_class.a_value
+    print(str(b))
     b1 = my_class.b_value
     print(str(b1))
+    print("")
+
+    my_class.cache_reset('a_value')
+    c = my_class.a_value
+    print(str(c))
     c1 = my_class.b_value
     print(str(c1))
     print("")
+
+    my_class.cache_reset()
+    d = my_class.a_value
+    print(str(d))
+    d1 = my_class.b_value
+    print(str(d1))
+    print("")
+
+    e = my_class.a_value
+    print(str(e))
+    e1 = my_class.b_value
+    print(str(e1))
+    print("")
+
 
     a2 = my_class.x_value
     print(str(a2))
