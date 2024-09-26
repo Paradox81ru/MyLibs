@@ -12,11 +12,11 @@ class CacheReaderClass:
     def __init__(self):
         self._cache = {}
 
-    def _cached_reader(self, key: str, func: callable, *args, **kwargs):
+    def _cached_reader(self, func: callable, *args, **kwargs):
         """ Читает значение переменной из кэша """
-        if key not in self._cache:
-            self._cache[key] = func(*args, **kwargs)
-        return self._cache[key]
+        if func.__name__ not in self._cache:
+            self._cache[func.__name__] = func(*args, **kwargs)
+        return self._cache[func.__name__]
 
     def cache_reset(self, key: str = None):
         """ Сброс кэша """
@@ -37,11 +37,11 @@ class MyClass(CacheReaderClass):
 
     @property
     def a_value(self):
-        return self._cached_reader('a_value', self._a_value)
+        return self._cached_reader(self._a_value)
 
     @property
     def b_value(self):
-        return self._cached_reader('b_value', self._b_value, 7)
+        return self._cached_reader(self._b_value, 7)
 
     @property
     @cached_reader
@@ -68,7 +68,7 @@ def main():
     print(str(b1))
     print("")
 
-    my_class.cache_reset('a_value')
+    my_class.cache_reset('_a_value')
     c = my_class.a_value
     print(str(c))
     c1 = my_class.b_value
