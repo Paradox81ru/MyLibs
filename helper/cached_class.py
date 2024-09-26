@@ -7,7 +7,7 @@ def cached_reader(fn):
     return func
 
 
-class CacheReaderClass:
+class CachedReader:
     """ Класс кэшер """
     def __init__(self):
         self._cache = {}
