@@ -28,11 +28,12 @@ class CacheReaderClass:
             self._cache[cache_key] = func(*args, **kwargs)
         return self._cache[cache_key]
 
-    def cache_reset(self, key: str = None, *, is_match=True):
+    def cache_reset(self, key: str = None, *, is_match=True, is_safe=False):
         """
-        Сбрасывает кэша
-        :param key: ключ кэша
-        :param is_match: сброс по точному совпадению ключа
+        Сброс кэша
+        :param key: Ключ конкретного кэша, который требуется сбросить. Если None, то сбрасывается весь кэш.
+        :param is_match: Сброс по точному совпадению ключа
+        :param is_safe: если ключа в кэше не существует, то ошибки поднята не будет
         :return:
         """
         if key is None:
@@ -40,13 +41,15 @@ class CacheReaderClass:
         else:
             if is_match:
                 if key not in self._cache:
-                    raise ValueError(f"Cache key '{key}' was not found in class {self.__class__.__name__}")
+                    if not is_safe:
+                        raise ValueError(f"Cache key '{key}' was not found in class {self.__class__.__name__}")
                 else:
                     del self._cache[key]
             else:
                 keys = tuple(filter(lambda i: key in i, self._cache.keys()))
                 if len(keys) == 0:
-                    raise ValueError(f"Cache key match '{key}' was not found in the class {self.__class__.__name__}")
+                    if not is_safe:
+                        raise ValueError(f"Cache key match '{key}' was not found in the class {self.__class__.__name__}")
                 else:
                     for _key in keys:
                         del self._cache[_key]
