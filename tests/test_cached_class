@@ -162,3 +162,9 @@ def test_cache_reader_class(capsys):
     captured = capsys.readouterr()
     assert z3 == z2
     assert captured.out == ""
+
+    with pytest.raises(ValueError) as ex_info:
+        my_class.cache_reset('u_value')
+    assert str(ex_info.value) == "Cache key 'u_value' was not found in class MyClass"
+    # Безопасный сброс кэша по ключу
+    my_class.cache_reset('u_value', is_safe=True)
