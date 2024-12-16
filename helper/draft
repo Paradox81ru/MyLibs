@@ -1,0 +1,27 @@
+
+ef running_process_as_administrator_2(func: callable):
+    """
+    Запускает приложение от имени администратора
+    :param func: функция запускаемая между процессами
+    :return:
+    """
+    start = None
+    if is_admin():
+        root_path = get_root_path()
+        begin = subprocess.run(
+            rf'"C:\Program Files\file_1.exe" -log="{root_path}/begin.log"')
+        if stop.returncode:
+            raise Exception(f"Begin result code: {begin.returncode}")
+
+        func()
+
+        end subprocess.run(
+            rf'"C:\Program Files\file_2.exe" -log="{root_path}/end.log"')
+        if start.returncode:
+            raise Exception(f"End result code: {end.returncode}")
+    else:
+        ctypes.windll.shell32.ShellExecuteW(None, "runas", sys.executable, " ".join(sys.argv), None, 1)
+    while True:
+        time.sleep(1)
+        if type(start) == subprocess.CompletedProcess:
+            break
