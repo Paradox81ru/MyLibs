@@ -1,5 +1,5 @@
 def cached_reader(fn):
-    """ Декоратор для кэшера """
+    """ Декоратор для кэшера. """
     def func(self, *args, **kwargs):
         def logger_debug(msg):
             if hasattr(self, '_BM'):
@@ -19,18 +19,18 @@ def cached_reader(fn):
 
 
 class CachedReader:
-    """ Класс кэшер """
+    """ Класс кэшер. """
     def __init__(self, _logger=None):
         self._logger = _logger
         self._cache = {}
 
     def _logger_debug(self, msg):
-        """ Добавляет Сообщение в дебаг логгера """
+        """ Добавляет Сообщение в дебаг логгера. """
         if self._logger is not None:
             self._logger.debug(msg)
 
     def _cached_reader(self, func: callable, *args, **kwargs):
-        """ Читает значение переменной из кэша """
+        """ Читает значение переменной из кэша. """
         cache_key = func.__name__
         for arg in args:
             cache_key += f"_{arg}"
@@ -45,7 +45,7 @@ class CachedReader:
 
     def cache_reset(self, key: str = None, *, is_match=True):
         """
-        Сброс кэша
+        Сброс кэша.
         :param key: Ключ конкретного кэша, который требуется сбросить. Если None, то сбрасывается весь кэш.
         :param is_match: Если True, то сброс по точному совпадению ключа. Иначе по вхождению в наименование ключа
         :return:

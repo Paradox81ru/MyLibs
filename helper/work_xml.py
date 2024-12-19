@@ -3,7 +3,7 @@ from xml.etree.ElementTree import Element
 
 
 def xml_converter_to_lofl(_xml: Element | str):
-    """  Преобразование XML в список списков """
+    """ Преобразуете XML в список списков. """
     _el = _xml if isinstance(_xml, Element) else ElementTree.fromstring(_xml)
     # Первый элемент списка - наименование тэга
     xml_element_list = [_el.tag]
@@ -22,18 +22,18 @@ def xml_converter_to_lofl(_xml: Element | str):
 
 def compare_xml(str_xml_1: Element | str, str_xml_2: Element | str, str_xpath: str = None):
     """
-    Проверка вхождения str_xml_1 в str_xml_2
-    :param str_xml_1: XML который проверятся
-    :param str_xml_2: XML с которым сверяется
-    :param str_xpath: строка xpath для выбирания нужных узлов из XML
+    Проверяет вхождения str_xml_1 в str_xml_2.
+    :param str_xml_1: XML который проверятся.
+    :param str_xml_2: XML с которым сверяется.
+    :param str_xpath: Строка xpath для выбирания нужных узлов из XML.
     :return:
     """
     def get_hash(str_xml, _str_xpath):
         """
-         Возвращает однозначный HASH строки XML
-        :param str_xml: строка XML
-        :param _str_xpath: строка xpath для выбирания нужных узлов из XML
-        :return:
+        Возвращает однозначный HASH строки XML.
+        :param str_xml: Строка XML.
+        :param _str_xpath: Строка xpath для выбирания нужных узлов из XML.
+        :return: Список HASH-сумм переданного XML.
         """
         _xml: Element = ElementTree.fromstring(str_xml) if isinstance(str_xml, str) else str_xml
         # Производится поиск указанных в XPATH узлов.
@@ -60,9 +60,9 @@ def compare_xml(str_xml_1: Element | str, str_xml_2: Element | str, str_xpath: s
 
 def convert_response_to_string(response: str | Element, is_formatted: bool = False):
     """
-    Конвертирует XML-ответ в строку
-    :param response: отвёт в формате JSON или строки
-    :param is_formatted: должен ли ответ быть отформатирован
+    Конвертирует XML-ответ в строку.
+    :param response: Отвёт в формате JSON или строки.
+    :param is_formatted: Должен ли ответ быть отформатирован.
     :return:
     """
     if not(isinstance(response, str) or isinstance(response, Element)):

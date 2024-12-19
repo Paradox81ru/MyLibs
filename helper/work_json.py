@@ -6,7 +6,7 @@ from jsonpath_ng import Descendants
 
 
 def json_converter_to_lofl(_json: str | dict | list) -> list[list]:
-    """ Преобразует JSON в список списков """
+    """ Преобразует JSON в список списков. """
     def convert(val):
         return sorted([(item[0], convert(item[1])) for item in val.items()]) if isinstance(val, dict) \
             else val if isinstance(val, str) else sorted([convert(item) for item in val]) if isinstance(val, Iterable) \
@@ -24,18 +24,18 @@ def json_converter_to_lofl(_json: str | dict | list) -> list[list]:
 
 def compare_json(json_1: str | dict | list, json_2: str | dict | list, str_xpath: str = None):
     """
-    Проверка вхождения str_json_1 в str_json_2
-    :param json_1: json который проверяется
-    :param json_2: json с которым проверяется
-    :param str_xpath: строка xpath для выбирания нужных узлов из JSON
+    Проверка вхождения str_json_1 в str_json_2.
+    :param json_1: json который проверяется.
+    :param json_2: json с которым проверяется.
+    :param str_xpath: Строка xpath для выбирания нужных узлов из JSON.
     :return:
     """
     def get_hash(_json, _str_xpath):
         """
-        Возвращает однозначный HASH строки json
-        :param _json: Строка JSON
-        :param _str_xpath: строка xpath для выбирания нужных узлов из JSON
-        :return:
+        Возвращает однозначный HASH строки json.
+        :param _json: Строка JSON.
+        :param _str_xpath: Строка xpath для выбирания нужных узлов из JSON.
+        :return: Список HASH-сумм переданного JSON.
         """
         # Строка JSON преобразуется в объект, если быа передана строка.
         _json = json.loads(_json) if isinstance(_json, str) else _json
@@ -73,9 +73,9 @@ def compare_json(json_1: str | dict | list, json_2: str | dict | list, str_xpath
 
 def convert_response_to_string(response: str | dict | list, is_formatted: bool = False):
     """
-    Конвертирует JSON-ответ в строку
-    :param response: отвёт в формате JSON или строки
-    :param is_formatted: должен ли ответ быть отформатирован
+    Конвертирует JSON-ответ в строку.
+    :param response: Отвёт в формате JSON или строки.
+    :param is_formatted: Должен ли ответ быть отформатирован.
     :return:
     """
     if not(isinstance(response, str) or isinstance(response, dict) or isinstance(response, list)):
