@@ -1,6 +1,6 @@
 import pytest
 
-from helper.work_xml import xml_converter_to_lofl
+from helper.work_xml import xml_converter_to_lofl, compare_xml
 
 SAMPLE_XML_1 = """<?xml version="1.0"?>
 <data>
@@ -233,21 +233,17 @@ SUB_XML_2 = """
 XML_STR = """<groups total="17"><group id="469b8c67-b874-11ef-9f46-3c7c3fbc6d25" name="469b8c67" child_groups="0" stations="0" type="0" /><group id="46a49010-b874-11ef-89f6-3c7c3fbc6d25" name="46a49010" child_groups="0" stations="0" type="0" /><group id="46ab6fb7-b874-11ef-9128-3c7c3fbc6d25" name="46ab6fb7" child_groups="2" stations="4" type="0" /><group id="068e436a-952e-49d9-9b7f-46e2761dfc6f" name="Active Directory" child_groups="3" stations="0" type="10" /><group id="c35f4732-b866-11ef-b82e-3c7c3fbc6d25" name="c35f4732" child_groups="0" stations="0" type="0" /><group id="c3656e57-b866-11ef-96c3-3c7c3fbc6d25" name="c3656e57" child_groups="0" stations="0" type="0" /><group id="c36c66e0-b866-11ef-bb0d-3c7c3fbc6d25" name="c36c66e0" child_groups="2" stations="4" type="0" /><group id="8c483456-0d15-4e41-b271-87197ac2adb6" name="Configured" child_groups="0" stations="0" type="10" /><group id="20e27d73-d21d-b211-a788-85419c46f0e6" name="Everyone" child_groups="0" stations="8" type="1" /><group id="aa6469d2-6621-46ce-8eed-fc35573c0b34" name="Neighbors" child_groups="6" stations="0" type="10" /><group id="f991915f-8a15-4cf7-817a-d81d156d2bbe" name="Operating system" child_groups="6" stations="0" type="10" /><group id="2abcd184-d8ba-4020-92fb-53148b61efaf" name="Policies" child_groups="0" stations="0" type="10" /><group id="640b34ee-2058-49d6-b24d-d7cb239cfa3d" name="Profiles" child_groups="0" stations="0" type="10" /><group id="54171821-08df-4146-860b-3f5e6eb4ef40" name="Proxies" child_groups="0" stations="0" type="13" /><group id="48afe720-953c-4075-856c-361f3ff06b6d" name="Status" child_groups="7" stations="8" type="10" /><group id="159e383d-f853-4bc5-9e18-c40144542aca" name="Transport" child_groups="3" stations="0" type="10" /><group id="411dac63-2a3e-4ce8-af4f-1fbeb94242ef" name="Ungrouped" child_groups="0" stations="0" type="10" /></groups>"""
 
 
-def my_compare_xml(xml_str1, xml_str2, xml_tag):
-    pass
-
-
 @pytest.mark.parametrize('xml_str1, xml_str2, xml_tag', [
     [SUB_XML_1,  SAMPLE_XML_1, 'country'],
     [SUB_XML_2, SAMPLE_XML_2, 'stations'],
     [SAMPLE_XML_2, SAMPLE_XML_2_OTHER, None]
 ], ids=['one', 'two', 'three'])
 def test_compare_xml(xml_str1, xml_str2, xml_tag):
-    assert my_compare_xml(xml_str1, xml_str2, xml_tag)
+    assert compare_xml(xml_str1, xml_str2, xml_tag)
 
 
 def test_compare_xml_2():
-    assert my_compare_xml(SAMPLE_XML_2, SAMPLE_XML_2_OTHER)
+    assert compare_xml(SAMPLE_XML_2, SAMPLE_XML_2_OTHER)
 
 
 @pytest.mark.parametrize('xml_str1, xml_str2, result', [
