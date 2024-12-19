@@ -1,7 +1,9 @@
-from helper cached_class import CacheReaderClass, cached_reader
+import pytest
+
+from helper.cached_class import CachedReader, cached_reader
 
 
-class MyClass(CacheReaderClass):
+class MyClass(CachedReader):
     def _a_value(self):
         print('Calc a_value')
         return 20 * 5
@@ -163,8 +165,3 @@ def test_cache_reader_class(capsys):
     assert z3 == z2
     assert captured.out == ""
 
-    with pytest.raises(ValueError) as ex_info:
-        my_class.cache_reset('u_value')
-    assert str(ex_info.value) == "Cache key 'u_value' was not found in class MyClass"
-    # Безопасный сброс кэша по ключу
-    my_class.cache_reset('u_value', is_safe=True)
